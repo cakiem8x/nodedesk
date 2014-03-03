@@ -33,7 +33,7 @@ module.exports = function(app, config) {
         app.use(express.cookieParser());
 
         app.use(express.limit(config.upload.maxSize / 1024 + 'mb'));
-
+        app.use(express.bodyParser({uploadDir:'./src/public/vendor/fileupload/img/'}));
         // bodyParser should be above methodOverride
         // Disable bodyParser() for file upload
         app.use(express.json())

@@ -5,7 +5,7 @@ module.exports = {
     development: {
         root: rootPath,
         session: {
-            domain: '.nodedesk.dev',
+            domain: '.nodedesk.local',
             secret: 'XrQ2Vsw2tESughz71l1B80NwqxA7z499',
             lifetime: 3600 * 1000 * 24           // 1 day
         },
@@ -22,7 +22,7 @@ module.exports = {
         },
         autoSave: 0,    // Auto-save interval time in minutes
         app: {
-            url: 'http://nodedesk.dev',
+            url: 'http://nodedesk.local',
             name: 'ZooTemplate Documents'
         },
         jobs: {

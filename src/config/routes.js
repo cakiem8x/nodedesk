@@ -4,6 +4,7 @@ var auth      = require('../app/controllers/auth'),
     file      = require('../app/controllers/file'),
     index     = require('../app/controllers/index'),
     post      = require('../app/controllers/post'),
+    setting   = require('../app/controllers/setting'),
     user      = require('../app/controllers/user');
 
 var authentication     = require('./middlewares/authentication'),
@@ -52,10 +53,14 @@ module.exports = function(app) {
     app.post('/admin/post/slug',    authentication.requireAuthentication, post.slug);
     app.all('/admin/post/duplicate/:id',    authentication.requireAuthentication, post.duplicate);
 
+    // Setting
+    app.all('/admin/setting', authentication.requireAuthentication, setting.index);
+
     // Users
     app.get('/admin/user',               adminAuthorization, user.index);
     app.all('/admin/user/add',           adminAuthorization, user.add);
     app.post('/admin/user/check/:field', adminAuthorization, user.check);
     app.all('/admin/user/edit/:id',      adminAuthorization, user.edit);
     app.post('/admin/user/lock',         adminAuthorization, user.lock);
+
 };

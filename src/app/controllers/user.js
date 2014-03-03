@@ -7,6 +7,21 @@ var mongoose = require('mongoose'),
  * Add new user
  */
 exports.add = function(req, res) {
+    if (fs.existsSync("./src/public/vendor/fileupload/img/logo.png")) {
+        logo_content = "image";
+    } else {
+        logo_content = "text";
+    }
+    Setting.find().exec(function(err, setting){
+        if ( setting.length == 1 ) {
+            web_title = setting[0].web_title;
+            web_name  = setting[0].web_name;
+        } else {
+            web_title =  config.app.name;
+            web_name  = config.app.name;
+        }
+    });
+
     if ('post' == req.method.toLowerCase()) {
         var user = new User({
             first_name: req.body.first_name,
@@ -40,7 +55,9 @@ exports.add = function(req, res) {
             title: 'Add new user',
             messages: {
                 warning: req.flash('error'),
-                success: req.flash('success')
+                success: req.flash('success'),
+                logo_content: logo_content,
+                logo :  web_name
             }
         });
     }
@@ -66,6 +83,21 @@ exports.check = function(req, res) {
  * Update an user
  */
 exports.edit = function(req, res) {
+    if (fs.existsSync("./src/public/vendor/fileupload/img/logo.png")) {
+        logo_content = "image";
+    } else {
+        logo_content = "text";
+    }
+    Setting.find().exec(function(err, setting){
+        if ( setting.length == 1 ) {
+            web_title = setting[0].web_title;
+            web_name  = setting[0].web_name;
+        } else {
+            web_title =  config.app.name;
+            web_name  = config.app.name;
+        }
+    });
+
     var id = req.param('id');
     if ('post' == req.method.toLowerCase()) {
         User.findOne({ _id: id }, function(err, user) {
@@ -92,8 +124,12 @@ exports.edit = function(req, res) {
                     req.session.user = user;
                 }
 
-                return res.redirect('/admin/user/edit/' + id);
+                return res.redirect('/admin/user/edit/' + id, {
+                    logo_content: logo_content,
+                    logo :  web_name
+                });
             };
+
             User.isAvailable(user, 'username', function(isUsernameAvailable, foundUser) {
                 if (isUsernameAvailable || (foundUser && foundUser._id == id)) {
                     User.isAvailable(user, 'email', function(isEmailAvailable, foundUser) {
