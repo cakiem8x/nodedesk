@@ -55,10 +55,10 @@ exports.add = function(req, res) {
             title: 'Add new user',
             messages: {
                 warning: req.flash('error'),
-                success: req.flash('success'),
-                logo_content: logo_content,
-                logo :  web_name
-            }
+                success: req.flash('success')
+            },
+            logo_content: logo_content,
+            logo :  web_name
         });
     }
 };
@@ -154,7 +154,9 @@ exports.edit = function(req, res) {
                     warning: req.flash('error'),
                     success: req.flash('success')
                 },
-                user: user
+                user: user,
+                logo_content: logo_content,
+                logo :  web_name
             });
         });
     }

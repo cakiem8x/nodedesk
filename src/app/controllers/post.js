@@ -429,6 +429,21 @@ exports.activate = function(req, res) {
  * Add new post
  */
 exports.add = function(req, res) {
+    if (fs.existsSync("./src/public/vendor/fileupload/img/logo.png")) {
+        logo_content = "image";
+    } else {
+        logo_content = "text";
+    }
+    Setting.find().exec(function(err, setting){
+        if ( setting.length == 1 ) {
+            web_title = setting[0].web_title;
+            web_name  = setting[0].web_name;
+        } else {
+            web_title =  config.app.name;
+            web_name  = config.app.name;
+        }
+    });
+
     var config = req.app.get('config');
     if ('post' == req.method.toLowerCase()) {
         var post = new Post({
@@ -487,7 +502,9 @@ exports.add = function(req, res) {
                 messages: {
                     warning: req.flash('error'),
                     success: req.flash('success')
-                }
+                },
+                logo_content: logo_content,
+                logo :  web_name
             });
         });
     }
@@ -534,6 +551,21 @@ exports.duplicate = function(req, res) {
  * Edit post
  */
 exports.edit = function(req, res) {
+    if (fs.existsSync("./src/public/vendor/fileupload/img/logo.png")) {
+        logo_content = "image";
+    } else {
+        logo_content = "text";
+    }
+    Setting.find().exec(function(err, setting){
+        if ( setting.length == 1 ) {
+            web_title = setting[0].web_title;
+            web_name  = setting[0].web_name;
+        } else {
+            web_title =  config.app.name;
+            web_name  = config.app.name;
+        }
+    });
+
     var id     = req.param('id'),
         config = req.app.get('config');
     Post.findOne({ _id: id }).exec(function(err, post) {
@@ -595,7 +627,9 @@ exports.edit = function(req, res) {
                         success: req.flash('success')
                     },
                     post: post,
-                    customHeadingStyle: customHeadingStyle
+                    customHeadingStyle: customHeadingStyle,
+                    logo_content: logo_content,
+                    logo :  web_name
                 });
             });
         }
